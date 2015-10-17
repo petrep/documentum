@@ -105,7 +105,7 @@ public class DfcRestartTask {
 
 	static void delegetaTask() throws Exception {
 		//selecting all documents for the user to be delegated
-		String dql = "SELECT item_id FROM dm_queue WHERE name = 'test3'";
+		String dql = "SELECT item_id FROM dm_queue WHERE name = 'Administrator' and item_type = 'manual'";
 		IDfQuery query = new DfQuery();
 		query.setDQL(dql);
 		collection = query.execute(session, IDfQuery.DF_READ_QUERY);
@@ -140,13 +140,13 @@ public class DfcRestartTask {
 				}
 
 				if (task_state == 0) {
-					//wi.acquire();
+					wi.acquire();
 					System.out.println("Acquiring item");
-					//wi.delegateTask("test1");
+					wi.delegateTask("test1");
 					System.out.println("delegating dormant task with " + "task name " + qi.getTaskName());
 					// dont acquire if the task is already acquired, just delegate it
 				} else if (task_state == 1) {
-					//wi.delegateTask("test3");
+					wi.delegateTask("test1");
 					System.out.println("delegating acquired task with " + "task name " + qi.getTaskName());
 				}
 				System.out.println("task name" + qi.getTaskName()
