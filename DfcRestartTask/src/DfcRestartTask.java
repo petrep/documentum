@@ -102,7 +102,7 @@ public class DfcRestartTask {
 			}
 		}
 	}
-
+//
 	static void delegetaTask() throws Exception {
 		//selecting all documents for the user to be delegated
 		String dql = "SELECT item_id FROM dm_queue WHERE name = 'Administrator' and item_type = 'manual'";
