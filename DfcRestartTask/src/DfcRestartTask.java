@@ -18,10 +18,11 @@ public class DfcRestartTask {
 	/**
 	 * @param args
 	 */
-	// private static final String UserName = "Administrator";
-	private static final String UserName = "dmadmin";
+	private static final String UserName = "Administrator";
+	// private static final String UserName = "dmadmin";
 	private static final String Password = "password";
-	private static final String DocBase = "MyRepo";
+//	private static final String DocBase = "MyRepo";
+	private static final String DocBase = "documentum";
 	private static final String DIRPATH = "/Temp/sample";
 
 	static IDfClientX clientx;
@@ -34,15 +35,6 @@ public class DfcRestartTask {
 	static IDfFolder folder;
 	static IDfCollection collection;
 	static IDfDocument doc;
-
-	public static void main(String[] args) throws Exception {
-
-		obtainDocbaseMap();
-		createNewSession();
-		restartTask();
-		closeSession();
-
-	}
 
 	static void obtainDocbaseMap() throws Exception {
 		clientx = new DfClientX();
@@ -62,8 +54,8 @@ public class DfcRestartTask {
 			clientx = new DfClientX();
 			client = clientx.getLocalClient();
 			loginInfoObj = new DfLoginInfo();
-			loginInfoObj.setUser("dmadmin");
-			loginInfoObj.setPassword("password");
+			loginInfoObj.setUser(UserName);
+			loginInfoObj.setPassword(Password);
 			sMgr = client.newSessionManager();
 			sMgr.setIdentity(DocBase, loginInfoObj);
 			session = sMgr.newSession(DocBase);
@@ -99,7 +91,15 @@ public class DfcRestartTask {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+            if (collection != null) {
+                collection.close();
+            }
 		}
+	}
+	
+	static void delegetaTask() throws Exception {
+		
 	}
 
 	static void closeSession() throws Exception {
@@ -117,5 +117,15 @@ public class DfcRestartTask {
 			System.err.println("" + e.getLocalizedMessage());
 			e.printStackTrace(System.err);
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+
+		obtainDocbaseMap();
+		createNewSession();
+		restartTask();
+		delegetaTask();
+		closeSession();
+
 	}
 }
