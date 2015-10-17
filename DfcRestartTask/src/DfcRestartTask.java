@@ -1,11 +1,17 @@
 import com.documentum.com.DfClientX;
 import com.documentum.com.IDfClientX;
+import com.documentum.fc.client.DfClient;
 import com.documentum.fc.client.IDfClient;
+import com.documentum.fc.client.IDfCollection;
 import com.documentum.fc.client.IDfDocbaseMap;
+import com.documentum.fc.client.IDfDocument;
+import com.documentum.fc.client.IDfFolder;
 import com.documentum.fc.client.IDfSession;
 import com.documentum.fc.client.IDfSessionManager;
 import com.documentum.fc.common.DfException;
 import com.documentum.fc.common.DfLoginInfo;
+import com.documentum.fc.common.IDfId;
+import com.documentum.fc.common.IDfLoginInfo;
 
 public class DfcRestartTask {
 
@@ -25,65 +31,16 @@ public class DfcRestartTask {
 	static IDfSession session;
 	static DfLoginInfo loginInfoObj;
 
+	static IDfFolder folder;
+	static IDfCollection collection;
+	static IDfDocument doc;
+
 	public static void main(String[] args) throws Exception {
-
-		// IDfSessionManager sMgr = null;
-		// IDfSession session = null;
-
-		// IDfFolder folder = null;
-		// IDfClient client = null;
-		// IDfCollection collection = null;
-		// IDfDocument doc = null;
-		// int count = 0;
-
-		// try {
-		// client = DfClient.getLocalClient();
-		// IDfLoginInfo loginInfo = new DfLoginInfo();
-		//
-		// loginInfo.setUser(UserName);
-		// loginInfo.setPassword(Password);
-		// loginInfo.setDomain("");
-		//
-		// IDfSession docbase_session = client.newSession(DocBase, loginInfo);
-		// folder = docbase_session.getFolderByPath(DIRPATH);
-		//
-		// collection = folder.getContents("r_object_id");
-		// while(collection.next()) {
-		// count++;
-		// IDfId id = collection.getId("r_object_id");
-		// doc = (IDfDocument) docbase_session.getObject(id);
-		// System.out.println("Object Name: " + doc.getObjectName());
-		// }
-		//
-		// if(docbase_session != null) {
-		// System.out.println("Successful");
-		// }
-		// else {
-		// System.out.println("Unsuccessful");
-		// }
-		// }
-		// catch (Exception e) {
-		// e.printStackTrace();
-		// }
 
 		obtainDocbaseMap();
 		createNewSession();
+		restartTask();
 		closeSession();
-
-		// try {
-		//
-		// IDfLoginInfo loginInfo = new DfLoginInfo();
-		//
-		// loginInfo.setUser(UserName);
-		// loginInfo.setPassword(Password);
-		// loginInfo.setDomain("");
-		//
-		// IDfSession docbase_session = client.newSession(DocBase, loginInfo);
-		//
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// ;
 
 	}
 
@@ -120,6 +77,28 @@ public class DfcRestartTask {
 		} catch (Throwable e) {
 			System.err.println("" + e.getLocalizedMessage());
 			e.printStackTrace(System.err);
+		}
+	}
+
+	static void restartTask() throws Exception {
+
+		int count = 0;
+		try {
+			folder = session.getFolderByPath(DIRPATH);
+			collection = folder.getContents("r_object_id");
+			while (collection.next()) {
+				count++;
+				IDfId id = collection.getId("r_object_id");
+				doc = (IDfDocument) session.getObject(id);
+				System.out.println("Object Name: " + doc.getObjectName());
+			}
+			if (session != null) {
+				System.out.println("Successful");
+			} else {
+				System.out.println("Unsuccessful");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
