@@ -104,7 +104,8 @@ public class DfcRestartTask {
 	}
 
 	static void delegetaTask() throws Exception {
-		String dql = "select  item_id from dmi_queue_item where task_name in ( 'doc3')";
+		//selecting all documents for the user to be delegated
+		String dql = "SELECT item_id FROM dm_queue WHERE name = 'test3'";
 		IDfQuery query = new DfQuery();
 		query.setDQL(dql);
 		collection = query.execute(session, IDfQuery.DF_READ_QUERY);
