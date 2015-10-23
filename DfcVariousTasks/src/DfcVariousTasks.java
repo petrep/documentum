@@ -109,7 +109,8 @@ public class DfcVariousTasks {
 	static void queryDQL() throws Exception {
 		try {
 //			dql = "SELECT object_name, r_object_id, r_modify_date from dm_document where folder('" + DIRPATH + "');";
-			dql = "SELECT stamp, item_id, item_name, name, sent_by, task_name, date_sent, priority FROM dm_queue WHERE name = 'test1';";
+//			dql = "SELECT stamp, item_id, item_name, name, sent_by, task_name, date_sent, priority FROM dm_queue WHERE name = 'test1';";
+			dql = "SELECT * from dm_user";
 			query = new DfQuery();
 			query.setDQL(dql);
 			System.out.println(dql);
@@ -122,20 +123,21 @@ public class DfcVariousTasks {
 
 			// Loop through the results
 			while (collection.next()) {
-//				IDfId id = collection.getId("r_object_id");
-				String stamp = collection.getString("stamp");
-				String item_id = collection.getString("item_id");
-				String item_name = collection.getString("item_name");
-				String name = collection.getString("name");
-				String task_name = collection.getString("task_name");
+				IDfId id = collection.getId("r_object_id");
+//				String stamp = collection.getString("stamp");
+//				String item_id = collection.getString("item_id");
+//				String item_name = collection.getString("item_name");
+//				String name = collection.getString("name");
+//				String task_name = collection.getString("task_name");
 //				if(name.equalsIgnoreCase("test1")){
 //					System.out.println("equals to test1");
 //				}
-				String sent_by = collection.getString("sent_by");
+//				String sent_by = collection.getString("sent_by");
 				
 				// String name = collection.getString("object_name");
 				// int size = collection.getInt("r_content_size");
-				System.out.println(stamp + " " + item_id + " " + item_name + " " + name + " " + sent_by + " " + task_name);
+//				System.out.println(stamp + " " + item_id + " " + item_name + " " + name + " " + sent_by + " " + task_name);
+				System.out.println("id: " + id);
 
 			}
 		} catch (DfException e) {
@@ -223,10 +225,10 @@ public class DfcVariousTasks {
 
 		obtainDocbaseMap();
 		createNewSession();
-		restartTask();
+//		restartTask();
 		queryDQL();
-		delegetaTask();
-		getAllTasksinInbox();
+//		delegetaTask();
+//		getAllTasksinInbox();
 		// listAllWorkflows();
 		closeSession();
 
